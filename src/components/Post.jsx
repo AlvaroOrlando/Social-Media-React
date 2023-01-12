@@ -28,6 +28,12 @@ const publishedDateRelativeToNow =  formatDistanceToNow(publishedAt, {
   addSuffix: true,
 })
 
+
+// New Comment FUNCTION
+function handleNewCommentChange(e){
+  setNewCommentText(e.target.value)
+}
+
 // Create Comment FUNCTION
 function handleCreateNewComment(e){
   e.preventDefault();
@@ -35,10 +41,15 @@ function handleCreateNewComment(e){
   setNewCommentText('');
 }
 
-// New Comment FUNCTION
-function handleNewCommentChange(e){
-  setNewCommentText(e.target.value)
+//Delete Comments
+function deleteComment(commentToDelete){
+const commentsWithoutDeletedOne = comments.filter(comment => {
+  return comment != commentToDelete
+})
+
+  setComments(commentsWithoutDeletedOne);
 }
+
 
 // HTML
 return (
@@ -87,7 +98,7 @@ return (
     {/* Comments */}
     <div className={styles.commentList}>
       {comments.map(comment =>{
-      return <Comment content={comment}/>
+      return <Comment onDeleteComment={deleteComment} content={comment}/>
       })}
     </div>
     </article> 
