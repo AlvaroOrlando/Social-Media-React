@@ -59,6 +59,7 @@ function handleNewCommentInvalid(e){
 
 // Empty Comment Variable
 const isNewCommentEmpty = newCommentText === '';
+
 // HTML
 return (
     <article className={styles.post}>
