@@ -18,6 +18,7 @@ const [comments, setComments] = useState([
 
 //State New Comment
 const [newCommentText, setNewCommentText] = useState('')
+console.log(newCommentText);
 
 const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
   locale:ptBR,
@@ -31,7 +32,8 @@ const publishedDateRelativeToNow =  formatDistanceToNow(publishedAt, {
 
 // New Comment FUNCTION
 function handleNewCommentChange(e){
-  setNewCommentText(e.target.value)
+  setNewCommentText(e.target.value);
+  e.target.setCustomValidity('');
 }
 
 // Create Comment FUNCTION
@@ -41,16 +43,22 @@ function handleCreateNewComment(e){
   setNewCommentText('');
 }
 
-//Delete Comments
+//Delete Comments FUNCTION
 function deleteComment(commentToDelete){
-const commentsWithoutDeletedOne = comments.filter(comment => {
+  const commentsWithoutDeletedOne = comments.filter(comment => {
   return comment != commentToDelete
 })
 
   setComments(commentsWithoutDeletedOne);
 }
 
+//Handle Invalid Comment FuNCTION
+function handleNewCommentInvalid(e){
+  e.target.setCustomValidity = 'Esse campo é obrigatório'
+}
 
+// Empty Comment Variable
+const isNewCommentEmpty = newCommentText === '';
 // HTML
 return (
     <article className={styles.post}>
@@ -89,9 +97,13 @@ return (
         placeholder='Deixe um comentário'
         onChange={handleNewCommentChange}
         value={newCommentText}
+        required
+        onInvalid={handleNewCommentInvalid}
       />
       <footer>
-        <button type='submit'>Publicar</button>
+        <button type='submit' disabled={isNewCommentEmpty}>
+          Publicar
+        </button>
       </footer>
     </form>
 
